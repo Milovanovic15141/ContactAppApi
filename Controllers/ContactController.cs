@@ -43,6 +43,11 @@ namespace ContactAppApi.Controllers
 
             var newContact = await _contactService.AddContact(contact);
 
+            if (newContact == null)
+            {
+                return StatusCode(500, new { message = "An error occurred while adding the contact." });
+            }
+
             return Ok(newContact);
         }
 
@@ -55,7 +60,7 @@ namespace ContactAppApi.Controllers
 
             if(result == null)
             {
-                return NotFound();
+                return NotFound(new { message = "Contact update failed." });
             }
 
             return Ok(result);
@@ -70,7 +75,7 @@ namespace ContactAppApi.Controllers
 
             if (!success)
             {
-                return NotFound();
+                return NotFound(new { message = "Contact delete failed." });
             }
 
             return Ok();
